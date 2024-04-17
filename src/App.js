@@ -1,3 +1,11 @@
+import Grid from "./components/Grid/Grid";
+import Header from "./components/Header/Header";
+
 export default function App() {
-  return <h1>Hello World</h1>;
+  return (
+    <main className="game-container">
+      <Header />
+      <Grid />
+    </main>
+  );
 }

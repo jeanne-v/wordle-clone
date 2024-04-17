@@ -1,0 +1,7 @@
+.header {
+  border-bottom: 1px solid #373739;
+}
+
+.header__title {
+  margin: 12px;
+}
