@@ -3,6 +3,7 @@ import Grid from "./components/Grid/Grid";
 import Header from "./components/Header/Header";
 import { fetchAnswer } from "./gameSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Keyboard from "./components/Keyboard/Keyboard";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -18,7 +19,16 @@ export default function App() {
   return (
     <main className="game-container">
       <Header />
-      {answer ? <Grid /> : isLoading ? "Loading..." : error}
+      {answer ? (
+        <>
+          <Grid />
+          <Keyboard />
+        </>
+      ) : isLoading ? (
+        "Loading..."
+      ) : (
+        error
+      )}
     </main>
   );
 }
