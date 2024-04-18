@@ -153,14 +153,63 @@ const gameSlice = createSlice({
         if (currentAttempt[i] === wordToGuessArray[i]) {
           match = "correct place";
           keyboardLetter.status = "correct place";
+        } else if (!wordToGuessArray.includes(currentAttempt[i])) {
+          match = "not in the word";
+          keyboardLetter.status = "not in the word";
         } else if (wordToGuessArray.includes(currentAttempt[i])) {
-          match = "incorrect place";
           if (keyboardLetter.status !== "correct place") {
             keyboardLetter.status = "incorrect place";
           }
-        } else {
-          match = "not in the word";
-          keyboardLetter.status = "not in the word";
+
+          const numberOfTimesThisLetterAppearsInUserGuess =
+            currentAttempt.filter(
+              (letter) => letter === currentAttempt[i]
+            ).length;
+
+          const numberOfTimesThisLetterAppearsInAnswer =
+            wordToGuessArray.filter(
+              (letter) => letter === currentAttempt[i]
+            ).length;
+
+          if (
+            numberOfTimesThisLetterAppearsInUserGuess <=
+            numberOfTimesThisLetterAppearsInAnswer
+          ) {
+            match = "incorrect place";
+          } else {
+            let numberOfTimesThisLetterIsCorrectlyPlacedInUserGuess = 0;
+
+            for (let j = 0; j < currentAttempt.length; j++) {
+              if (currentAttempt[j] === currentAttempt[i]) {
+                if (currentAttempt[j] === wordToGuessArray[j]) {
+                  numberOfTimesThisLetterIsCorrectlyPlacedInUserGuess++;
+                }
+              }
+            }
+
+            if (
+              numberOfTimesThisLetterIsCorrectlyPlacedInUserGuess <
+              numberOfTimesThisLetterAppearsInAnswer
+            ) {
+              const maxNumberOfYellowSlots =
+                numberOfTimesThisLetterAppearsInAnswer -
+                numberOfTimesThisLetterIsCorrectlyPlacedInUserGuess;
+
+              const numberOfAlreadyYellowSlots = attemptResult.filter(
+                (item) => {
+                  return item.status === "incorrect place";
+                }
+              ).length;
+
+              if (maxNumberOfYellowSlots > numberOfAlreadyYellowSlots) {
+                match = "incorrect place";
+              } else {
+                match = "not in the word";
+              }
+            } else {
+              match = "not in the word";
+            }
+          }
         }
 
         attemptResult.push({
