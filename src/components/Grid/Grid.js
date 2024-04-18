@@ -41,9 +41,26 @@ function GridRow({ rowContent }) {
   return (
     <div className="grid__row">
       {rowContent.map((item) => {
+        let content;
+        let classes = "grid__tile";
+
+        if (typeof item === "string") {
+          content = item;
+        } else {
+          content = item.letter;
+
+          if (item.status === "not in the word") {
+            classes += ` grid__tile--not-in-the-word`;
+          } else if (item.status === "incorrect place") {
+            classes += ` grid__tile--incorrect-place`;
+          } else if (item.status === "correct place") {
+            classes += ` grid__tile--correct-place`;
+          }
+        }
+
         return (
-          <div key={nanoid()} className="grid__tile">
-            {item}
+          <div key={nanoid()} className={classes}>
+            {content}
           </div>
         );
       })}

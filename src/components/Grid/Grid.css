@@ -25,3 +25,18 @@
   align-items: center;
   font-weight: 700;
 }
+
+.grid__tile--not-in-the-word {
+  background-color: #3a3a3c;
+  border-color: #3a3a3c;
+}
+
+.grid__tile--incorrect-place {
+  background-color: #b59f3b;
+  border-color: #b59f3b;
+}
+
+.grid__tile--correct-place {
+  background-color: #538d4e;
+  border-color: #538d4e;
+}

@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
+  isGameOver: false,
   answer: {
     word: null,
     loading: false,
@@ -136,6 +137,45 @@ const gameSlice = createSlice({
     deleteLetter(state) {
       state.attempts.currentAttempt.pop();
     },
+    submitGuess(state) {
+      const wordToGuessArray = state.answer.word.split("");
+      const currentAttempt = state.attempts.currentAttempt;
+
+      let attemptResult = [];
+
+      for (let i = 0; i < currentAttempt.length; i++) {
+        let match;
+
+        const keyboardLetter = state.letters.find(
+          (letter) => letter.letter === currentAttempt[i]
+        );
+
+        if (currentAttempt[i] === wordToGuessArray[i]) {
+          match = "correct place";
+          keyboardLetter.status = "correct place";
+        } else if (wordToGuessArray.includes(currentAttempt[i])) {
+          match = "incorrect place";
+          if (keyboardLetter.status !== "correct place") {
+            keyboardLetter.status = "incorrect place";
+          }
+        } else {
+          match = "not in the word";
+          keyboardLetter.status = "not in the word";
+        }
+
+        attemptResult.push({
+          letter: currentAttempt[i],
+          status: match,
+        });
+      }
+
+      if (attemptResult.every((item) => item.status === "correct place")) {
+        state.isGameOver = true;
+      }
+
+      state.attempts.previousAttempts.push(attemptResult);
+      state.attempts.currentAttempt = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -154,4 +194,4 @@ const gameSlice = createSlice({
 });
 
 export default gameSlice.reducer;
-export const { addLetter, deleteLetter } = gameSlice.actions;
+export const { addLetter, deleteLetter, submitGuess } = gameSlice.actions;

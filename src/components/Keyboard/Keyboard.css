@@ -35,3 +35,15 @@
 .keyboard__tile--delete svg {
   vertical-align: top;
 }
+
+.keyboard__tile--not-in-the-word {
+  background-color: #3a3a3c;
+}
+
+.keyboard__tile--incorrect-place {
+  background-color: #b59f3b;
+}
+
+.keyboard__tile--correct-place {
+  background-color: #538d4e;
+}
