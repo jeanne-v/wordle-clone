@@ -17,16 +17,22 @@ export default function Grid() {
   );
 
   // if there are remaining attempts, add rows with empty slots
-  let allAttempts = [...previousAttempts, currentAttemptContent];
-  const emptySlots = new Array(6 - allAttempts.length).fill([
-    "",
-    "",
-    "",
-    "",
-    "",
-  ]);
 
-  const gridContent = allAttempts.concat(emptySlots);
+  let gridContent = [];
+
+  if (previousAttempts.length === 6) {
+    gridContent = previousAttempts;
+  } else {
+    const allAttempts = [...previousAttempts, currentAttemptContent];
+    const emptySlots = new Array(6 - allAttempts.length).fill([
+      "",
+      "",
+      "",
+      "",
+      "",
+    ]);
+    gridContent = allAttempts.concat(emptySlots);
+  }
 
   return (
     <div className="grid">

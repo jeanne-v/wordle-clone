@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
-  isGameOver: false,
+  gameStatus: "playing",
   answer: {
     word: null,
     loading: false,
@@ -218,12 +218,17 @@ const gameSlice = createSlice({
         });
       }
 
-      if (attemptResult.every((item) => item.status === "correct place")) {
-        state.isGameOver = true;
-      }
-
       state.attempts.previousAttempts.push(attemptResult);
       state.attempts.currentAttempt = [];
+
+      if (attemptResult.every((item) => item.status === "correct place")) {
+        state.gameStatus = "WIN";
+      } else if (state.attempts.previousAttempts.length === 6) {
+        state.gameStatus = "FAIL";
+      }
+    },
+    startNewGame(state) {
+      return (state = initialState);
     },
   },
   extraReducers: (builder) => {
@@ -243,4 +248,5 @@ const gameSlice = createSlice({
 });
 
 export default gameSlice.reducer;
-export const { addLetter, deleteLetter, submitGuess } = gameSlice.actions;
+export const { addLetter, deleteLetter, submitGuess, startNewGame } =
+  gameSlice.actions;
