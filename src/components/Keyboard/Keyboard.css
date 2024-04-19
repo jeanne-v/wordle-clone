@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   row-gap: 6px;
+  padding: 0 12px 12px;
 }
 
 .keyboard__row {
@@ -36,14 +37,30 @@
   vertical-align: top;
 }
 
+.keyboard__tile:hover {
+  background-color: #67696a;
+}
+
 .keyboard__tile--not-in-the-word {
   background-color: #3a3a3c;
+}
+
+.keyboard__tile--not-in-the-word:hover {
+  background-color: #2e2e30;
 }
 
 .keyboard__tile--incorrect-place {
   background-color: #b59f3b;
 }
 
+.keyboard__tile--incorrect-place:hover {
+  background-color: #917f2f;
+}
+
 .keyboard__tile--correct-place {
   background-color: #538d4e;
+}
+
+.keyboard__tile--correct-place:hover {
+  background-color: #42713e;
 }

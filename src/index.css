@@ -12,9 +12,16 @@ body {
 }
 
 .game-container {
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   row-gap: 16px;
+}
+
+@media (min-width: 450px) {
+  .game-container {
+    row-gap: 5dvh;
+  }
 }
 
 .modal-container {
@@ -69,4 +76,8 @@ body {
   border-radius: 2px;
   padding: 12px 20px;
   cursor: pointer;
+}
+
+.modal__new-game-btn:hover {
+  background-color: #42713e;
 }
