@@ -120,11 +120,15 @@ const initialState = {
 };
 
 export const fetchAnswer = createAsyncThunk("answer/fetchAnswer", async () => {
-  const response = await fetch(
-    "https://random-word-api.vercel.app/api?words=1&length=5&type=uppercase"
-  );
-  const data = await response.json();
-  return data[0];
+  let word = "";
+  while (!word.match(/^[a-zA-Z]+$/)) {
+    const response = await fetch(
+      "https://random-word-api.vercel.app/api?words=1&length=5&type=uppercase"
+    );
+    const data = await response.json();
+    word = data[0];
+  }
+  return word;
 });
 
 const gameSlice = createSlice({
