@@ -3,6 +3,7 @@ import { addLetter, deleteLetter, submitGuess } from "../../gameSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDeleteLeft } from "@fortawesome/free-solid-svg-icons";
 import "./Keyboard.css";
+import { useCallback, useEffect } from "react";
 
 export default function Keyboard() {
   const dispatch = useDispatch();
@@ -12,25 +13,52 @@ export default function Keyboard() {
     (state) => state.game.attempts.currentAttempt
   );
 
-  const isGameOver = useSelector((state) => state.game.isGameOver);
+  const gameStatus = useSelector((state) => state.game.gameStatus);
 
   function handleLetterClick(e) {
-    if (currentAttempt.length < 5 && !isGameOver) {
+    if (currentAttempt.length < 5 && gameStatus === "playing") {
       dispatch(addLetter(e.target.dataset.key));
     }
   }
 
   function handleDeleteClick() {
-    if (currentAttempt.length > 0 && !isGameOver) {
+    if (currentAttempt.length > 0 && gameStatus === "playing") {
       dispatch(deleteLetter());
     }
   }
 
   function handleEnterClick() {
-    if (currentAttempt.length === 5 && !isGameOver) {
+    if (currentAttempt.length === 5 && gameStatus === "playing") {
       dispatch(submitGuess());
     }
   }
+
+  const handleKeyUp = useCallback(
+    (e) => {
+      if (gameStatus === "playing") {
+        if (
+          currentAttempt.length < 5 &&
+          e.key.match(/[a-z]/i) &&
+          e.key.length === 1
+        ) {
+          dispatch(addLetter(e.key.toUpperCase()));
+        } else if (currentAttempt.length > 0 && e.key === "Backspace") {
+          dispatch(deleteLetter());
+        } else if (currentAttempt.length === 5 && e.key === "Enter") {
+          dispatch(submitGuess());
+        }
+      }
+    },
+    [currentAttempt, gameStatus, dispatch]
+  );
+
+  useEffect(() => {
+    document.body.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      document.body.removeEventListener("keyup", handleKeyUp);
+    };
+  }, [handleKeyUp]);
 
   const letterTiles = letters.map((letter, index) => {
     let classes = "keyboard__tile";
