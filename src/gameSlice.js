@@ -201,7 +201,10 @@ const gameSlice = createSlice({
 
               const numberOfAlreadyYellowSlots = attemptResult.filter(
                 (item) => {
-                  return item.status === "incorrect place";
+                  return (
+                    item.status === "incorrect place" &&
+                    item.letter === currentAttempt[i]
+                  );
                 }
               ).length;
 
