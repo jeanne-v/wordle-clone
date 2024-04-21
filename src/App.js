@@ -43,8 +43,11 @@ export default function App() {
     }
   }, [gameStatus]);
 
+  const styles =
+    gameStatus !== "playing" ? { position: "fixed", width: "100%" } : null;
+
   return (
-    <main className="game-container">
+    <main className="game-container" style={styles}>
       {gameStatus === "WIN" && <Confetti width={width} height={height} />}
       <Header />
       {answer ? (
