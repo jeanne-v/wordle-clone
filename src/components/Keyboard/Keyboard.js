@@ -100,6 +100,7 @@ export default function Keyboard() {
         {letterTiles.slice(19)}
 
         <button
+          aria-label="Erase last letter"
           className="keyboard__tile keyboard__tile--delete"
           onClick={handleDeleteClick}
         >
